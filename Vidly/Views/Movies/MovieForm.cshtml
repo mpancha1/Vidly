@@ -1,0 +1,78 @@
+﻿@model Vidly.ViewModels.NewMovieViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Movie</h2>
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new
+        {
+            @class = "form-control"
+
+        })
+        @Html.ValidationMessageFor(m => m.Name)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReleaseDateTime)
+        @Html.TextBoxFor(m => m.ReleaseDateTime,
+
+                  new
+                  {
+                      @class = "form-control"
+
+                  })
+        @Html.ValidationMessageFor(m => m.ReleaseDateTime)
+
+    </div>
+   
+    <div class="form-group">
+        @Html.LabelFor(m => m.Numinstock)
+        @Html.TextBoxFor(m => m.Numinstock,
+
+                  new
+                  {
+                      @class = "form-control"
+
+                  })
+        @Html.ValidationMessageFor(m => m.Numinstock)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.GenreId)
+        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre", new
+    {
+        @class = "form-control"
+    })
+
+
+        @Html.ValidationMessageFor(m => m.GenreId)
+
+    </div>
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary"> Save </button>
+
+    @*  <div class="form-group">
+        @Html.LabelFor(m => m.GenreId)
+        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genre, "Id", "Name"), "Select Genre Type", new
+        {
+            @class = "form-control"
+        })
+    *@
+
+}
+@section scripts
+{
+    @Scripts.Render("~/ bundles / jqueryval")
+}
+
