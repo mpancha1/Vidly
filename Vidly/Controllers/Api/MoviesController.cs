@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AutoMapper;
+using Vidly.Dtos;
 using Vidly.Models;
 
 namespace Vidly.Controllers.Api
@@ -19,12 +21,12 @@ namespace Vidly.Controllers.Api
         }
 
         
-        public IEnumerable<Movie> GetMovies()
+        public IEnumerable<MovieDto> GetMovies()
         {
-            return _context.Movies.ToList();
+            return _context.Movies.ToList().Select(Mapper.Map<Movie,MovieDto>);
         }
 
-        public Movie GetMovie(int id)
+        public MovieDto GetMovie(int id)
         {
             var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
             if (movie == null)
@@ -32,12 +34,12 @@ namespace Vidly.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return movie;
+            return Mapper.Map<Movie,MovieDto>(movie);
         }
 
         //POST/api/movies
         [HttpPost]
-        public Movie CreateMovie(Movie movie)
+        public MovieDto CreateMovie(MovieDto movieDto)
         {
 
             if (!ModelState.IsValid)
@@ -45,16 +47,17 @@ namespace Vidly.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             
-            movie.AddedDateTime = DateTime.Now;
+            movieDto.AddedDateTime = DateTime.Now;
+            var movie = Mapper.Map<MovieDto, Movie>(movieDto);
             _context.Movies.Add(movie);
             
             _context.SaveChanges();
-            return movie;
+            return movieDto;
         }
 
         //POST/api/movies/1
         [HttpPut]
-        public void UpdateMovie(int id,Movie movie)
+        public void UpdateMovie(int id,MovieDto moviedto)
         {
             if (!ModelState.IsValid)
             {
@@ -67,12 +70,10 @@ namespace Vidly.Controllers.Api
                 throw  new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            
-            movieInDb.GenreId = movie.GenreId;
-            movieInDb.Name = movie.Name;
-            movieInDb.ReleaseDateTime = movie.ReleaseDateTime;
+            Mapper.Map(moviedto, movieInDb);
+           
             movieInDb.AddedDateTime = DateTime.Now;
-            movieInDb.Numinstock = movie.Numinstock;
+            
 
             _context.SaveChanges();
 
