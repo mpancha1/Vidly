@@ -21,5 +21,7 @@ namespace Vidly.Dtos
         [Required]
         [Range(1, 20)]
         public int Numinstock { get; set; }
+
+        public GenreDto Genre { get; set; }
     }
 }

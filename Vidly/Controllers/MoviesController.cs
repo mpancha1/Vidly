@@ -41,9 +41,9 @@ namespace Vidly.Controllers
         [Route("movies/ViewMovies")]
         public ActionResult ViewMovies()
         {
-            var movies = _context.Movies.Include(c => c.Genre).ToList();
+           // var movies = _context.Movies.Include(c => c.Genre).ToList();
             //var viewmodel = new RandomMovieViewModel() { movies = movies };
-            return View(movies);
+            return View();
 
         }
 
