@@ -70,9 +70,9 @@ namespace Vidly.Controllers
 
         public ActionResult ViewCustomers()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+           
            // var view = new RandomMovieViewModel() { Customers = customers};
-            return View(customers);
+            return View();
         }
 
         
